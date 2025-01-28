@@ -6,7 +6,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
+import com.example.bookshelf.ui.screens.BookshelfViewModel
 import com.example.bookshelf.ui.screens.HomeScreen
+import androidx.lifecycle.viewmodel.compose.viewModel
 
 @Composable
 fun BookshelfApp() {
@@ -17,9 +19,10 @@ fun BookshelfApp() {
             modifier = Modifier.fillMaxSize()
         ) {
 
-//        val bookshelfViewModel: BookshelfViewModel = viewModel()
+            val bookshelfViewModel: BookshelfViewModel = viewModel()
             HomeScreen(
-            contentPadding = it
+                bookshelfUiState = bookshelfViewModel.bookshelfUiState,
+                contentPadding = it
             )
         }
     }
