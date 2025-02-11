@@ -7,9 +7,16 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.bookshelf.network.BookshelfApi
 import kotlinx.coroutines.launch
+import java.io.IOException
+
+sealed interface BookshelfUiState {
+    data class Success(val books: String) : BookshelfUiState
+    object Error : BookshelfUiState
+    object Loading : BookshelfUiState
+}
 
 class BookshelfViewModel : ViewModel() {
-    var bookshelfUiState : String by mutableStateOf("")
+    var bookshelfUiState : BookshelfUiState by mutableStateOf(BookshelfUiState.Loading)
         private set
 
     init {
@@ -21,8 +28,12 @@ class BookshelfViewModel : ViewModel() {
             /*
              * TODO: take a search string and pass it to the getBooks call.
              */
-            val listResult = BookshelfApi.retrofitService.getBooks("kotlin")
-            bookshelfUiState = listResult
+            bookshelfUiState = try {
+                val listResult = BookshelfApi.retrofitService.getBooks("kotlin")
+                BookshelfUiState.Success(listResult)
+            } catch (e: IOException) {
+                BookshelfUiState.Error
+            }
         }
     }
 }

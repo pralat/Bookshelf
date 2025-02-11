@@ -11,7 +11,7 @@ import androidx.compose.ui.unit.dp
 
 @Composable
 fun HomeScreen(
-    bookshelfUiState: String,
+    bookshelfUiState: BookshelfUiState,
     modifier: Modifier = Modifier,
     contentPadding: PaddingValues = PaddingValues(0.dp)
 ) {
@@ -23,8 +23,19 @@ fun HomeScreen(
          * TODO: prompt user for the search string and pass it to the viewmodel for
          * the getBooks call.
          */
-        Text(
-            text = bookshelfUiState,
-        )
+        when (bookshelfUiState) {
+            is BookshelfUiState.Success ->
+                Text(
+                    text = bookshelfUiState.books,
+                )
+            is BookshelfUiState.Loading ->
+                Text(
+                    text = "Loading...",
+                )
+            is BookshelfUiState.Error ->
+                Text(
+                    text = "Error...",
+                )
+        }
     }
 }
