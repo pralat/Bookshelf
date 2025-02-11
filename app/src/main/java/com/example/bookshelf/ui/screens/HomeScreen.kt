@@ -19,6 +19,10 @@ fun HomeScreen(
         contentAlignment = Alignment.Center,
     )
     {
+        /*
+         * TODO: prompt user for the search string and pass it to the viewmodel for
+         * the getBooks call.
+         */
         Text(
             text = bookshelfUiState,
         )
